@@ -14,4 +14,6 @@ public interface CategoryRepository extends JpaRepository<Category, UUID> {
     Optional<Category> findById(UUID id);
 
     List<Category> findByDeleteFlagFalseAndEnableTrue();
+
+    boolean existsByNameAndDeleteFlagFalse(String categoryName);
 }

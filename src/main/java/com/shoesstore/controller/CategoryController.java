@@ -1,6 +1,8 @@
 package com.shoesstore.controller;
 
 import com.shoesstore.entity.Category;
+import com.shoesstore.payload.request.CategoryRequest;
+import com.shoesstore.payload.response.Response;
 import com.shoesstore.repository.CategoryRepository;
 import com.shoesstore.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +29,18 @@ public class CategoryController {
         return categoryService.deleteById(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/toggle/{id}")
     public ResponseEntity<Object> toggleEnable(@PathVariable("id") UUID id){
         return categoryService.toggleStatus(id);
+    }
+
+    @PostMapping
+    public Response save(@RequestBody CategoryRequest categoryRequest){
+        return categoryService.save(categoryRequest);
+    }
+
+    @PutMapping("/{id}")
+    public Response edit(@PathVariable("id") UUID id, @RequestBody CategoryRequest categoryRequest){
+        return categoryService.edit(id, categoryRequest);
     }
 }

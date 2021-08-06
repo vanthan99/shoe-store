@@ -1,6 +1,8 @@
 package com.shoesstore.service.impl;
 
 import com.shoesstore.entity.Category;
+import com.shoesstore.payload.request.CategoryRequest;
+import com.shoesstore.payload.response.Response;
 import com.shoesstore.repository.CategoryRepository;
 import com.shoesstore.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +41,22 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<Category> findAll() {
         return categoryRepository.findByDeleteFlagFalseAndEnableTrue();
+    }
+
+    @Override
+    public Response save(CategoryRequest categoryRequest) {
+        Category category = new Category(categoryRequest.getName());
+        categoryRepository.save(category);
+        return new Response();
+    }
+
+    @Override
+    public Response edit(UUID uuid, CategoryRequest categoryRequest) {
+        Category category = categoryRepository.findById(uuid)
+                .orElseThrow(() -> new RuntimeException(""));
+
+        category.setName(categoryRequest.getName());
+        categoryRepository.save(category);
+        return new Response();
     }
 }
